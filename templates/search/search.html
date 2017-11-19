@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load highlight %}
+
+{% block posts %}
+{% if query %}
+{% for result in page.object_list %}
+<div class="blog-post">
+    <h2 class="blog-post-title"><a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a></h2>
+    <p class="blog-post-meta">
+        作者：<a href="#"><span class="label label-danger">{{ result.object.author }}</span>&nbsp;&nbsp;</a>发布时间：{{ result.object.pub_time }}
+        &nbsp;&nbsp;&nbsp;
+        {% for cate in result.object.category.all %}
+        <a href="{{ cate.get_absolute_url }}"><span class="label label-primary">{{cate.name}}&nbsp;</span></a>
+        {% endfor %}
+    </p>
+</div>
+{% if result.object.intro %}
+{{ result.object.intro|safe }}
+{% else %}
+{{ result.object.content|truncatechars:80|safe }}
+{% endif %}
+<hr>
+{% empty %}
+<div class="no-post"><h3>没有搜索到你想要的结果！</h3></div>
+{% endfor %}
+{% endif %}
+{% endblock %}

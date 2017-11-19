@@ -1,0 +1,85 @@
+{% load blog_tags %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nowpython</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--导入自定义css文件-->
+    <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--导入自定义js文件-->
+    <script src="{% static 'js/myjs.js' %}"></script>
+</head>
+<body>
+{% include 'nav.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            {% block posts %}
+            {% endblock %}
+        </div><!-- /.blog-main -->
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+            <div class="sidebar-module sidebar-module-inset">
+                <div class="panel panel-default panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {% if user.is_authenticated %}
+                            欢迎回来，{{ user.username }}
+                            {% else %}
+                            你好，神秘来客
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ request.session.weather.city }}，{{ request.session.weather.cond }}，{{ request.session.weather.tmp }}摄氏度。
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-module sidebar-module-inset">
+                <div class="panel panel-default panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">关于博客</h3>
+                    </div>
+                    <div class="panel-body">
+                        用博客的形式，记录下自己学习的点滴，受到很多技术博客的帮助，也希望自己的博客能成为其中之一。
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-module">
+                <div class="panel panel-default panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">文章分类</h3>
+                    </div>
+                    <div class="list-group">
+                        {% get_categories as category_list %}
+                        {% for cate in category_list %}
+                        <a href="{{ cate.get_absolute_url }}" class="list-group-item"><strong>{{cate}}</strong><span class="badge">{{cate.num_posts}}</span></a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-module">
+                <h4>友情链接</h4>
+                <hr>
+                <ol class="list-unstyled">
+                    <li><a href="https://github.com/"><h5><span class="label label-success">GitHub</span></h5></a></li>
+                    <li><a href="https://stackoverflow.com/"><h5><span class="label label-success">Stack Overflow</span></h5></a></li>
+                    <li><a href="https://www.w3cschool.cn/"><h5><span class="label label-success">W3Cschool</span></h5></a></li>
+                </ol>
+            </div>
+            <div id="backtotop">
+                <a href="javascript:" title="回到顶部"><img src="{% static 'images/backtotop.png' %}" alt="回到顶部"></a>
+            </div>
+        </div><!-- /.blog-sidebar -->
+    </div><!-- /.row -->
+</div><!-- /.container -->
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted">Place sticky footer content here.</p>
+    </div>
+</footer>
+</body>
+</html>
