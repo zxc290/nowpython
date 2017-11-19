@@ -23,11 +23,14 @@ def index(request, page=1, cate_name=None):
         posts = paginator.page(paginator.num_pages)
 
     # 查询天气
-    if not request.session.get('weather', False):
-        weather = get_city_weather('49.76.209.41')
-        request.session['weather'] = weather
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    weather = get_city_weather(ip)
 
-    return render(request, 'index.html', {'posts': posts, 'cate_name': cate_name})
+    return render(request, 'index.html', {'posts': posts, 'cate_name': cate_name, 'weather': weather})
 
 
 def post_detail(request, pk, page=1):
