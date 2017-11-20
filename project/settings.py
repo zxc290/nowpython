@@ -164,6 +164,3 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'blog.backends.EmailBackend',
 )
-
-# 关闭浏览器会话过期
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
