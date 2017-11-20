@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Post, User, Category, Comment
 from markdown import markdown
 from .forms import RegisterForm, ReplyForm, EditProfileForm, PostForm, CommentForm
-from .weather import get_city_weather
+
 
 # Create your views here.
 def index(request, page=1, cate_name=None):
@@ -14,7 +14,6 @@ def index(request, page=1, cate_name=None):
         posts = Post.objects.all()
 
     paginator = Paginator(posts, 5)
-
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -22,15 +21,7 @@ def index(request, page=1, cate_name=None):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    # 查询天气
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[-1].strip()
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    weather = get_city_weather(ip)
-
-    return render(request, 'index.html', {'posts': posts, 'cate_name': cate_name, 'weather': weather})
+    return render(request, 'index.html', {'posts': posts, 'cate_name': cate_name})
 
 
 def post_detail(request, pk, page=1):
@@ -75,8 +66,6 @@ def reply_to_comment(request, comment_pk):
             reply.name = request.user.username
             reply.save()
             return redirect(post)
-
-
 
 
 def register(request):
