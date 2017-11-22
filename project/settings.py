@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.nowpython.cn']
 # Application definition
 
 INSTALLED_APPS = [
+    'suit',
     'haystack',
     'blog',
     'django.contrib.admin',
@@ -164,3 +165,17 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'blog.backends.EmailBackend',
 )
+
+# django-suit时间格式
+DATETIME_FORMAT = 'Y-m-d H:i:s'
+DATE_FORMAT = 'Y-m-d'
+
+SUIT_CONFIG = {
+    # header
+    'ADMIN_NAME': '管理系统',
+    'LIST_PER_PAGE': 10,
+    'MENU': (
+        'sites',
+        {'app': 'blog', 'label': '博客', 'icon': 'icon-wrench'},
+    ),
+}
