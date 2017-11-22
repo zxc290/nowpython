@@ -57,33 +57,3 @@ class Post(models.Model):
         return self.title
 
 
-class Comment(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=255)
-    text = models.TextField()
-    created_time = models.DateTimeField(auto_now_add=True)
-    floor = models.CharField(max_length=100, blank=True)
-    post = models.ForeignKey(Post)
-
-    class Meta:
-        verbose_name = '评论'
-        verbose_name_plural = verbose_name
-        ordering = ['created_time']
-
-    def __str__(self):
-        return self.text[:30]
-
-
-class Reply(models.Model):
-    comment = models.ForeignKey(Comment, verbose_name='评论')
-    name = models.CharField(max_length=100)
-    text = models.TextField()
-    created_time = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = '回复'
-        verbose_name_plural = verbose_name
-        ordering = ['created_time']
-
-    def __str__(self):
-        return self.text[:30]

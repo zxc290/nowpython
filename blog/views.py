@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Post, User, Category, Comment
+from .models import Post, User, Category
 from markdown import markdown
-from .forms import RegisterForm, ReplyForm, EditProfileForm, PostForm, CommentForm
+from .forms import RegisterForm, EditProfileForm, PostForm
 
 
 # Create your views here.
@@ -27,45 +27,7 @@ def index(request, page=1, cate_name=None):
 def post_detail(request, pk, page=1):
     post = get_object_or_404(Post, pk=pk)
     post.content = markdown(post.content)
-    comment_list = post.comment_set.all()
-    for floor, comment in enumerate(comment_list):
-        comment.floor = floor + 1
-
-    comment_paginator = Paginator(comment_list, 10, 3)
-    try:
-        comment_list = comment_paginator.page(page)
-    except PageNotAnInteger:
-        comment_list = comment_paginator.page(1)
-    except EmptyPage:
-        comment_list = comment_paginator.page(comment_paginator.num_pages)
-
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.name = request.user.username
-            comment.email = request.user.email
-            comment.post = post
-            comment.save()
-            return redirect(post)
-    comment_form = CommentForm()
-    reply_form = ReplyForm()
-    return render(request, 'post_detail.html', {'post': post, 'comment_form': comment_form, 'reply_form': reply_form,
-                                                'comment_list': comment_list})
-
-
-def reply_to_comment(request, comment_pk):
-    comment_pk = comment_pk
-    comment = Comment.objects.get(pk=comment_pk)
-    post = Post.objects.get(comment=comment)
-    if request.method == 'POST':
-        reply_form = ReplyForm(request.POST)
-        if reply_form.is_valid():
-            reply = reply_form.save(commit=False)
-            reply.comment = comment
-            reply.name = request.user.username
-            reply.save()
-            return redirect(post)
+    return render(request, 'post_detail.html', {'post': post })
 
 
 def register(request):

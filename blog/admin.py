@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Post, Category, Comment, Reply
+from .models import User, Post, Category
 # Register your models here.
 
 
@@ -19,10 +19,6 @@ class CategoryAdmin(admin.ModelAdmin):
     pass
 
 
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'text')
-
-
 class ReplyAdmin(admin.ModelAdmin):
     list_display = ('name', 'text')
 
@@ -30,5 +26,3 @@ class ReplyAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Comment, CommentAdmin)
-admin.site.register(Reply, ReplyAdmin)
