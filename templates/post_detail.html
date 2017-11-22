@@ -14,50 +14,5 @@
 </div>
 {{ post.content|safe }}
 <hr>
-<ul class="list-unstyled">
-    {% for comment in comment_list %}
-    <li><span class="label label-info">#{{ comment.floor }}</span>&nbsp;<span class="label label-danger">{{ comment.name }}</span>&nbsp;&nbsp;<span class="pull-right">发表于：{{ comment.created_time }}</span>
-        <div>
-            <br>
-            <p>{{ comment.text }}</p>
-            <br>
-            {% if comment.reply_set.all %}
-            <p class="text-right">
-                <a href="javascript:" class="hide-reply">收起回复</a>
-            </p>
-            <div class="well">
-                <ul class="list-unstyled">
-                    {% for reply in comment.reply_set.all %}
-                    <li>{{ reply.name }} : {{ reply.text }}</li>
-                    <li class="text-right">{{ reply.created_time }}&nbsp;&nbsp;<a href="javascript:" class="reply">回复</a></li>
-                    {% endfor %}
-                    <br>
-                    <li class="text-right"><button class="btn btn-default add-comment">我也说一句</button></li>
-                </ul>
-            </div>
-            {% else %}
-            <p class="text-right">
-                <a href="javascript:" class="comment">回复</a>
-            </p>
-            {% endif %}
-            <!--jq评论回复-->
-            <form class="form-horizontal col-sm-12" action="{% url 'reply_to_comment' comment.pk %}" method="POST" style="display:none;">
-                {% csrf_token %}
-                {{ reply_form.non_field_errors }}
-                <div class="form-group">
-                    {% render_field reply_form.text class="form-control" placeholder=field.label rows="3" %}
-                    {{ reply_form.text.errors }}
-                </div>
-                <div class="form-group" >
-                    <button type="submit" class="btn btn-primary btn-md pull-right">发表</button>
-                </div>
-                <hr>
-            </form>
-        </div>
-        <hr>
-    </li>
-    {% endfor %}
-    {% include 'comment_pagination.html'%}
-</ul>
 {% include 'youyan.html' %}
 {% endblock %}
