@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% block posts %}
+<div class="well">
 <div class="blog-post">
     <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a></h2>
     <p class="blog-post-meta">
@@ -15,4 +16,5 @@
 {{ post.content|safe }}
 <hr>
 {% include 'youyan.html' %}
+</div>
 {% endblock %}

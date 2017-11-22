@@ -3,31 +3,24 @@
 {% if cate_name %}
 <div class="alert alert-info" role="alert">
     <strong>当前分类：{{ cate_name }}</strong>
-      </div>
+</div>
 {% endif %}
 {% for post in posts %}
+<div class="well">
 <div class="blog-post">
     <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a></h2>
-            <p class="blog-post-meta">
-                作者：<a href="#"><span class="label label-danger">{{ post.author }}</span>&nbsp;&nbsp;</a>发布时间：{{ post.pub_time }}
-                &nbsp;&nbsp;&nbsp;
-                {% for cate in post.category.all %}
-                <a href="{{ cate.get_absolute_url }}"><span class="label label-primary">{{cate.name}}&nbsp;</span></a>
-                {% endfor %}
-            </p>
+    <p class="blog-post-meta">
+        作者：<a href="#"><span class="label label-danger">{{ post.author }}</span>&nbsp;&nbsp;</a>发布时间：{{ post.pub_time }}
+        &nbsp;&nbsp;&nbsp;
+        {% for cate in post.category.all %}
+        <a href="{{ cate.get_absolute_url }}"><span class="label label-primary">{{cate.name}}&nbsp;</span></a>
+        {% endfor %}
+    </p>
 </div>
 <hr>
-{% if post.intro %}
-{{ post.intro|safe }}
-{% else %}
-{{ post.content|truncatechars:80|safe }}
-{% endif %}
-<br>
-<br>
 <div>
-    <a href="{{ post.get_absolute_url }}" style="color:#0044BB;">
-        <p class="text-right"><strong>阅读更多...</strong></p>
-    </a>
+    {{ post.intro }}
+</div>
 </div>
 {% endfor %}
 <hr>

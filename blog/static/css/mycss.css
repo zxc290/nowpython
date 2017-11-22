@@ -14,12 +14,13 @@ a:active {
 }
 body {
      padding-top: 70px;
+     background-color: #eee;
 }
 #backtotop {
     position:fixed;
     display:none;
-    bottom:50px;
-    right:50px;
+    bottom:70px;
+    right:40px;
 }
 .navbar-default {
     background-color:#1d8659;
@@ -41,10 +42,18 @@ body {
   color: #fff;
   background-color: #1d7164;
 }
-.panel-success>.panel-heading {
-    color: #fff;
-    background-color: #1d8659;
+.panel {
+    border:none;
 }
+.panel-heading {
+    background-color: #1d8659;
+    color: #fff;
+}
+
 .badge {
     background-color:#4795d6;
+}
+footer .navbar {
+    margin-bottom:0px;
+    color: #fff;
 }
