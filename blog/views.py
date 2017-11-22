@@ -58,30 +58,3 @@ def user_profile(request, username):
         form = EditProfileForm(instance=request.user)
 
     return render(request, 'user_profile.html', {'user': user, 'form': form})
-
-
-def new_post(request):
-    user = get_object_or_404(User, username=request.user.username)
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if 'publish' in request.POST and form.is_valid():
-            post = form.save(commit=False)
-            post.author = user
-            post.save()
-            return redirect('index')
-    else:
-        form = PostForm()
-    return render(request, 'new_post.html', {'form': form})
-
-
-def edit_post(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        try:
-            form = PostForm(instance=request.post)
-        except AttributeError:
-            form = PostForm()
-    return render(request, 'edit_post.html', {'form': form})
