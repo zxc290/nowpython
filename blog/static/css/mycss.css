@@ -23,6 +23,7 @@ body {
 }
 .navbar-default {
     background-color:#1d8659;
+    border-color:#1d8659;
 }
 .navbar-default .navbar-brand {
     color:#fff;
