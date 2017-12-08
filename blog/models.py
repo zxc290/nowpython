@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator
 from django.shortcuts import reverse
-import requests
 
 
 # Create your models here.
@@ -55,5 +54,22 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    content = models.TextField(verbose_name='评论内容')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='评论时间')
+    author = models.ForeignKey(User, verbose_name='评论人')
+    post = models.ForeignKey(Post, verbose_name='所属文章')
+    parent = models.ForeignKey('self', verbose_name='根评论', blank=True, null=True, related_name='child_comment')
+    reply_to = models.ForeignKey('self', verbose_name='父级评论', blank=True, null=True, related_name='direct_child')
+
+    class Meta:
+        verbose_name = '评论'
+        verbose_name_plural = verbose_name
+        ordering = ['created']
+
+    def __str__(self):
+        return self.content[:20]
 
 

@@ -57,3 +57,51 @@ footer .navbar {
     margin-bottom:0px;
     color: #fff;
 }
+#id_parent {
+    display:none;
+}
+#id_post {
+    display:none;
+}
+#id_reply_to {
+    display:none;
+}
+
+.comment-count {
+    margin:70px 0px 20px;
+}
+.reply-list {
+    margin-left:60px;
+}
+.root-comment {
+    border-top:red solid 1px;
+    padding:20px 0px 10px;
+    margin:0px;
+}
+.child-comment {
+    border-top:blue dashed 1px;
+    padding:20px 0px 10px;
+    margin:0px;
+}
+#cancel-reply {
+    display:none;
+}
+.comment-header {
+    padding: 10px 10px;
+    border-top: solid 1px;
+    border-left: solid 1px;
+    border-right: solid 1px;
+    border-color: silver;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color:#eee;
+}
+.comment-header span{
+    font-size: 1.2em;
+    margin-left: 5px;
+}
+.post-content {
+    border-top:1px red solid;
+    padding:15px 0px;
+    margin-bottom:15px;
+}

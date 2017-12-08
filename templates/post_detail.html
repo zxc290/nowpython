@@ -1,20 +1,78 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% load blog_tags %}
 {% block posts %}
 <div class="well">
-<div class="blog-post">
-    <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a></h2>
-    <p class="blog-post-meta">
-        作者：<a href="#"><span class="label label-danger">{{ post.author }}</span>&nbsp;&nbsp;</a>发布时间：{{ post.pub_time }}
-        &nbsp;&nbsp;&nbsp;
-        {% for cate in post.category.all %}
-        <a href="{{ cate.get_absolute_url }}"><span class="label label-primary">{{cate.name}}&nbsp;</span></a>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a></h2>
+        <p class="blog-post-meta">
+            作者：<a href="#"><span class="label label-danger">{{ post.author }}</span>&nbsp;&nbsp;</a>发布时间：{{ post.pub_time }}
+            &nbsp;&nbsp;&nbsp;
+            {% for cate in post.category.all %}
+            <a href="{{ cate.get_absolute_url }}"><span class="label label-primary">{{cate.name}}&nbsp;</span></a>
+            {% endfor %}
+        </p>
+    </div>
+    <div class="post-content">
+        {{ post.content|safe }}
+    </div>
+    <div class="comment-header">
+        <span>{{ request.user.username }}</span>
+    </div>
+    <form action="{% url 'post_detail' post.pk %}" method="POST" id="comment-form">
+        {% csrf_token %}
+        {% for error in comment_form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissible form-group" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ error }}
+        </div>
         {% endfor %}
-    </p>
-    <hr>
-</div>
-{{ post.content|safe }}
-<hr>
-{% include 'youyan.html' %}
+        {% for field in comment_form %}
+        <div class="form-group">
+            {% render_field field class="form-control" placeholder=field.label %}
+            {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="form-group pull-right">
+            <button type="button" class="btn btn-danger btn-md" id="cancel-reply">取消回复</button>&nbsp;
+            <button type="submit" class="btn btn-primary btn-md">提交评论</button>
+        </div>
+    </form>
+    <div class="comment-count">
+        <h3>共有{{ post.comment_set.all.count }}条评论</h3>
+    </div>
+    <div class="comment">
+        <!-- 第一次遍历所有根评论 -->
+        {% if comment_list %}
+        <div class="comment-list">
+            {% for root_comment in comment_list %}
+            <div class="root-comment">
+                <p>{{ root_comment.author.username }}</p>
+                <p>{{ root_comment.content }}<a href="#comment-form" class="pull-right reply" id="{{ root_comment.pk }}">回复</a></p>
+            </div>
+            <!--获取所有根评论下的回复-->
+            {% get_reply_of root_comment as reply_list %}
+            <!-- 第二次遍历当前跟评论下的所有回复 -->
+            {% if reply_list %}
+            <div class="reply-list">
+                {% for comment in reply_list %}
+                <div class="child-comment">
+                    <p>{{ comment.author.username }}&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;{{ comment.parent.author.username }}</p>
+                    <p>{{ comment.content }}<a href="#comment-form" class="pull-right reply" id="{{ comment.pk }}">回复</a></p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div>
+            <p>暂无评论</p>
+        </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

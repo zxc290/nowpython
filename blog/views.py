@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Post, User, Category
+from .models import Post, Category, Comment
 from markdown import markdown
-from .forms import RegisterForm, EditProfileForm, PostForm
+from .forms import RegisterForm, CommentForm
 
 
 # Create your views here.
@@ -27,7 +27,25 @@ def index(request, page=1, cate_name=None):
 def post_detail(request, pk, page=1):
     post = get_object_or_404(Post, pk=pk)
     post.content = markdown(post.content)
-    return render(request, 'post_detail.html', {'post': post })
+    comment_list = post.comment_set.all().filter(parent=None)
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.author = request.user
+            reply_to = comment_form.cleaned_data['reply_to']
+            # 直接回复时,reply_to为none,确保reply_to非空才能操作parent属性
+            if reply_to is not None:
+                # 当回复的评论不是根评论时,上级评论与新评论有共同根评论
+                if reply_to.parent:
+                    new_comment.parent = reply_to.parent
+                    # 当回复了根评论时，新回复的根评论即为reply_to本身
+                else:
+                    new_comment.parent = reply_to
+            new_comment.save()
+            return redirect(post)
+    comment_form = CommentForm(initial={'post': post.pk})
+    return render(request, 'post_detail.html', {'post': post, 'comment_list': comment_list, 'comment_form': comment_form })
 
 
 def register(request):
@@ -41,20 +59,3 @@ def register(request):
     else:
         user_form = RegisterForm()
     return render(request, 'register.html', {'user_form': user_form})
-
-
-def about_me(request):
-    post = User.objects.get(username='john').post_set.get(title='关于我')
-    return render(request, 'post_detail.html', {'post': post})
-
-
-def user_profile(request, username):
-    user = get_object_or_404(User, username=username)
-    if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-    else:
-        form = EditProfileForm(instance=request.user)
-
-    return render(request, 'user_profile.html', {'user': user, 'form': form})

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Post, Category
+from .models import User, Post, Category, Comment
 # Register your models here.
 
 
@@ -23,6 +23,11 @@ class ReplyAdmin(admin.ModelAdmin):
     list_display = ('name', 'text')
 
 
+class CommentAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Comment, CommentAdmin)

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.nowpython.cn']
 
 INSTALLED_APPS = [
     'suit',
+    'mptt',
     'haystack',
     'blog',
     'django.contrib.admin',
@@ -131,12 +132,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
-
 # 多媒体文件
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-
 
 # 自定义用户模型
 AUTH_USER_MODEL = 'blog.User'

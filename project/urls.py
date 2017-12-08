@@ -25,6 +25,8 @@ from django.contrib.auth.views import password_reset_done
 from django.contrib.auth.views import password_reset_confirm
 from django.contrib.auth.views import password_reset_complete
 from django.views.generic.base import RedirectView
+from django.conf.urls.static import static
+from django.conf import settings
 from blog import views
 
 
@@ -47,9 +49,9 @@ urlpatterns = [
     url(r'password-reset/confirm/(?P<uidb64>[-\w]+)/(?P<token>[-\w]+)/$', password_reset_confirm, name='password_reset_confirm'),
     url(r'password-reset/complete/$', password_reset_complete, name='password_reset_complete'),
     url(r'register/$', views.register, name='register'),
-    #haystack搜索
+    # haystack搜索
     url(r'search/', include('haystack.urls')),
-    #favicon图标
+    # favicon图标
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/images/favicon.ico')),
 ]
 

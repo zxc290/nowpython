@@ -1,11 +1,6 @@
-from .models import User, Post
+from .models import User, Comment
 from django.forms import ModelForm
 from django import forms
-
-
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
 
 
 class RegisterForm(ModelForm):
@@ -29,15 +24,8 @@ class RegisterForm(ModelForm):
         return cd['email']
 
 
-class EditProfileForm(ModelForm):
+class CommentForm(ModelForm):
 
     class Meta:
-        model = User
-        fields = ('nickname', 'age', 'intro', 'mobile')
-
-
-class PostForm(ModelForm):
-
-    class Meta:
-        model = Post
-        exclude = ['draft', 'review', 'author']
+        model = Comment
+        fields = ('content', 'parent', 'reply_to', 'post')
