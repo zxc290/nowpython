@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'mptt',
     'haystack',
     'blog',
+    'crispy_forms',
+    'imagekit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -177,3 +179,6 @@ SUIT_CONFIG = {
         {'app': 'blog', 'label': '博客', 'icon': 'icon-wrench'},
     ),
 }
+
+# crispy指定样式bootstrap3
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

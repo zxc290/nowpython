@@ -32,12 +32,12 @@ from blog import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^user/', include('django.contrib.auth.urls')),
     url(r'^$', views.index, name='index'),
     url(r'^page/(?P<page>\d+)$', views.index, name='home_page'),
     url(r'^post/(?P<pk>\d+)/$', views.post_detail, name='post_detail'),
     url(r'^category/(?P<cate_name>[\w\s]+)/$', views.index, name='category'),
     url(r'^category/(?P<cate_name>[\w\s]+)/page/(?P<page>\d+)/$', views.index, name='category_page'),
+    url(r'^accounts/profile/$', views.account_profile, name='account_profile'),
     # django认证框架
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, name='logout'),

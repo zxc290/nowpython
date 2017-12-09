@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator
 from django.shortcuts import reverse
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 
 
 # Create your models here.
@@ -12,6 +14,10 @@ class User(AbstractUser):
     age = models.IntegerField(blank=True, null=True, verbose_name='年龄', validators=[MaxValueValidator(150)])
     intro = models.TextField(max_length=100, blank=True, null=True, verbose_name='个人简介')
     mobile = models.CharField(max_length=11, blank=True, null=True, unique=True, verbose_name='手机')
+    avatar = ProcessedImageField(upload_to='avatar', default='avatar/default.png', verbose_name='头像',
+                                 # 处理为85*85尺寸
+                                 processors=[ResizeToFill(85, 85)],
+                                 )
 
     class Meta:
         verbose_name = '用户'
@@ -20,6 +26,11 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def save(self, *args, **kwargs):
+        if len(self.avatar.name.split('/')) == 1:
+            self.avatar.name = self.username + '/' + self.avatar.name
+        super(User, self).save()
 
 
 class Category(models.Model):

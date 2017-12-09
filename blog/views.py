@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Post, Category, Comment
 from markdown import markdown
-from .forms import RegisterForm, CommentForm
+from .forms import RegisterForm, CommentForm, UserDetailForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -59,3 +60,15 @@ def register(request):
     else:
         user_form = RegisterForm()
     return render(request, 'register.html', {'user_form': user_form})
+
+
+@login_required
+def account_profile(request):
+    messages = []
+    if request.method == 'POST':
+        form =UserDetailForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.append('资料修改成功')
+    form = UserDetailForm(instance=request.user)
+    return render(request, 'account/user_detail.html', {'form': form, 'messages': messages})

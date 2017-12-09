@@ -29,3 +29,9 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ('content', 'parent', 'reply_to', 'post')
+
+
+class UserDetailForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('nickname', 'avatar')
