@@ -13,6 +13,7 @@ a:active {
     color:#ba2636;
 }
 html {
+<<<<<<< HEAD
     height:100%;
 }
 body {
@@ -20,6 +21,15 @@ body {
      flex-direction: column;
      height: 100%;
      margin-top:70px;
+=======
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+     padding-top: 60px;
+     margin-bottom:60px;
+>>>>>>> ea28b969a50f0d196eb7580ac1a0f3628a4233d0
      background-color: #eee;
 }
 /*正文*/
@@ -70,6 +80,7 @@ footer {
 .badge {
     background-color:#4795d6;
 }
+<<<<<<< HEAD
 .comment-count {
     margin:70px 0px 20px;
 }
@@ -128,4 +139,14 @@ footer {
 }
 .well {
      overflow:hidden;
+=======
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #1d8659;
+  color: #fff;
+>>>>>>> ea28b969a50f0d196eb7580ac1a0f3628a4233d0
 }
