@@ -15,9 +15,19 @@
 </head>
 <body>
 {% include 'nav.html' %}
-<div class="container">
+<div class="container" id="main">
     <div class="row">
         <div class="col-sm-8 blog-main">
+            {% block message %}
+        {% if messages %}
+         <div id="myAlert" class="alert alert-success auth-message">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+	        {% for message in messages %}
+	        <strong>{{message}}</strong>
+	        {% endfor %}
+         </div>
+        {% endif %}
+        {% endblock message %}
             {% block content %}
             {% endblock %}
         </div><!-- /.blog-main -->

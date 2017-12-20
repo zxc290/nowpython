@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MaxValueValidator
 from django.shortcuts import reverse
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
@@ -9,15 +8,12 @@ from imagekit.processors import ResizeToFill
 
 # Create your models here.
 class User(AbstractUser):
-    email = models.EmailField(verbose_name='电子邮箱地址', unique=True)
-    nickname = models.CharField(max_length=30, verbose_name='昵称')
-    age = models.IntegerField(blank=True, null=True, verbose_name='年龄', validators=[MaxValueValidator(150)])
-    intro = models.TextField(max_length=100, blank=True, null=True, verbose_name='个人简介')
-    mobile = models.CharField(max_length=11, blank=True, null=True, unique=True, verbose_name='手机')
-    avatar = ProcessedImageField(upload_to='avatar', default='avatar/default.png', verbose_name='头像',
-                                 # 处理为85*85尺寸
-                                 processors=[ResizeToFill(85, 85)],
+    nickname = models.CharField(verbose_name='昵称', max_length=50)
+    avatar = ProcessedImageField(upload_to='avatar', default='avatar/default.jpg', verbose_name='头像',
+                                 # 处理为45*45尺寸
+                                 processors=[ResizeToFill(45, 45)],
                                  )
+
 
     class Meta:
         verbose_name = '用户'
@@ -30,6 +26,9 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         if len(self.avatar.name.split('/')) == 1:
             self.avatar.name = self.username + '/' + self.avatar.name
+        # 昵称默认为用户名
+        if not self.nickname:
+            self.nickname = self.username
         super(User, self).save()
 
 
@@ -82,5 +81,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content[:20]
-
 

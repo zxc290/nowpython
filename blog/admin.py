@@ -4,7 +4,7 @@ from .models import User, Post, Category, Comment
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'age', 'intro')
+    list_display = ('username', 'email')
 
 
 class PostAdmin(admin.ModelAdmin):

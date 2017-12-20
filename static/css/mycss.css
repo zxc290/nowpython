@@ -12,10 +12,27 @@ a:hover {
 a:active {
     color:#ba2636;
 }
+html {
+    height:100%;
+}
 body {
-     padding-top: 70px;
+     display: flex;
+     flex-direction: column;
+     height: 100%;
+     margin-top:70px;
      background-color: #eee;
 }
+/*正文*/
+#main {
+    flex: 1 0 auto;
+}
+/*页脚*/
+footer {
+  flex: 0 0 auto;
+  background-color: #1d8659;
+  color: #fff;
+}
+
 #backtotop {
     position:fixed;
     display:none;
@@ -53,40 +70,24 @@ body {
 .badge {
     background-color:#4795d6;
 }
-footer .navbar {
-    margin-bottom:0px;
-    color: #fff;
-}
-#id_parent {
-    display:none;
-}
-#id_post {
-    display:none;
-}
-#id_reply_to {
-    display:none;
-}
-
 .comment-count {
     margin:70px 0px 20px;
 }
 .reply-list {
-    margin-left:60px;
+    margin-left:70px;
 }
 .root-comment {
-    border-top:red solid 1px;
-    padding:20px 0px 10px;
-    margin:0px;
+    border-top:1px #ccc solid;
+    padding:10px 0;
+    overflow:hidden;
 }
 .child-comment {
-    border-top:blue dashed 1px;
-    padding:20px 0px 10px;
-    margin:0px;
+    border-top:1px #ccc dashed;
+    padding:10px 0;
+    margin:10px 0;
+    overflow:hidden;
 }
-#cancel-reply {
-    display:none;
-}
-.comment-header {
+.comment-form-title {
     padding: 10px 10px;
     border-top: solid 1px;
     border-left: solid 1px;
@@ -96,12 +97,35 @@ footer .navbar {
     border-top-right-radius: 4px;
     background-color:#eee;
 }
-.comment-header span{
+.comment-form-title span{
     font-size: 1.2em;
     margin-left: 5px;
 }
 .post-content {
-    border-top:1px red solid;
+    border-top:1px #ccc solid;
     padding:15px 0px;
     margin-bottom:15px;
+}
+.comment-avatar {
+    padding-left:0px;
+}
+.comment-content {
+    margin:10px 0;
+}
+
+#div_id_parent {
+    display:none;
+}
+#div_id_reply_to {
+    display:none;
+}
+#div_id_post {
+    display:none;
+}
+#button-id-cancel-reply {
+    display:none;
+    margin:0 5px 0;
+}
+.well {
+     overflow:hidden;
 }

@@ -33,18 +33,22 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.nowpython.cn']
 
 INSTALLED_APPS = [
     'suit',
-    'mptt',
     'haystack',
     'blog',
     'crispy_forms',
     'imagekit',
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.weibo',
+    'allauth.socialaccount.providers.github',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -141,12 +145,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # 自定义用户模型
 AUTH_USER_MODEL = 'blog.User'
 
-# 定义登录登出后的重定向
-LOGOUT_REDIRECT_URL = 'index'
-LOGIN_REDIRECT_URL = 'index'
-LOGIN_URL = reverse_lazy('login')
-LOGOUT_URL = reverse_lazy('logout')
-
 # haystack搜索引擎
 HAYSTACK_CONNECTIONS = {
     'default': {
@@ -157,13 +155,19 @@ HAYSTACK_CONNECTIONS = {
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
+# 邮箱设置
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_HOST_USER = '290704731@qq.com'
+EMAIL_HOST_PASSWORD = 'csnjmtzmxhvmcagg'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = '290704731@qq.com'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # 用户认证后端
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'blog.backends.EmailBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 # django-suit时间格式
@@ -182,3 +186,11 @@ SUIT_CONFIG = {
 
 # crispy指定样式bootstrap3
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+# all-auth设置
+SITE_ID = 1
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+LOGIN_REDIRECT_URL = '/'

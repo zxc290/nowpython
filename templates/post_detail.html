@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
 {% load blog_tags %}
-{% block posts %}
+{% load crispy_forms_tags %}
+{% block content %}
 <div class="well">
     <div class="blog-post">
         <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a></h2>
@@ -16,63 +16,66 @@
     <div class="post-content">
         {{ post.content|safe }}
     </div>
-    <div class="comment-header">
-        <span>{{ request.user.username }}</span>
-    </div>
-    <form action="{% url 'post_detail' post.pk %}" method="POST" id="comment-form">
-        {% csrf_token %}
-        {% for error in comment_form.non_field_errors %}
-        <div class="alert alert-danger alert-dismissible form-group" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            {{ error }}
+    <div class="comment-form-title">
+            <span>新评论</span>
         </div>
-        {% endfor %}
-        {% for field in comment_form %}
-        <div class="form-group">
-            {% render_field field class="form-control" placeholder=field.label %}
-            {% for error in field.errors %}
-            <span class="text-danger">{{ error }}</span>
-            {% endfor %}
-        </div>
-        {% endfor %}
-
-        <div class="form-group pull-right">
-            <button type="button" class="btn btn-danger btn-md" id="cancel-reply">取消回复</button>&nbsp;
-            <button type="submit" class="btn btn-primary btn-md">提交评论</button>
-        </div>
-    </form>
+        <!--评论列表-->
+        {% crispy form %}
     <div class="comment-count">
         <h3>共有{{ post.comment_set.all.count }}条评论</h3>
     </div>
     <div class="comment">
         <!-- 第一次遍历所有根评论 -->
-        {% if comment_list %}
         <div class="comment-list">
             {% for root_comment in comment_list %}
             <div class="root-comment">
-                <p>{{ root_comment.author.username }}</p>
-                <p>{{ root_comment.content }}<a href="#comment-form" class="pull-right reply" id="{{ root_comment.pk }}">回复</a></p>
+                <div class="col-sm-1 comment-avatar">
+                    <img class="img-rounded" src="{{ root_comment.author.avatar.url }}">
+                </div>
+                <div class="col-sm-11">
+                    <span id="c{{ root_comment.pk }}">{{ root_comment.author.username }}</span>
+                    <span class="pull-right">{{ root_comment.created }}</span>
+                    <div class="comment-content">{{ root_comment.content }}</div>
+                    <span><a href="javascript:void(0);" class="reply pull-right" id="{{ root_comment.pk }}">回复</a></span>
+                </div>
             </div>
             <!--获取所有根评论下的回复-->
             {% get_reply_of root_comment as reply_list %}
             <!-- 第二次遍历当前跟评论下的所有回复 -->
-            {% if reply_list %}
             <div class="reply-list">
                 {% for comment in reply_list %}
                 <div class="child-comment">
-                    <p>{{ comment.author.username }}&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;{{ comment.parent.author.username }}</p>
-                    <p>{{ comment.content }}<a href="#comment-form" class="pull-right reply" id="{{ comment.pk }}">回复</a></p>
+                    <div class="col-sm-1 comment-avatar">
+                        <img class="img-rounded" src="{{ comment.author.avatar.url }}">
+                    </div>
+                    <div class="col-sm-11">
+                        <span id="c{{ comment.pk }}">{{ comment.author.username }}</span>&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;<span>{{ comment.parent.author.username }}</span>
+                        <span class="pull-right">{{ comment.created }}</span>
+                        <div class="comment-content">{{ comment.content }}</div>
+                        <span><a href="javascript:void(0);" class="pull-right reply" id="{{ comment.pk }}">回复</a></span>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
-            {% endif %}
+            {% empty %}
+            <div class="no-comment">
+                <p>暂无评论</p>
+            </div>
             {% endfor %}
         </div>
-        {% else %}
-        <div>
-            <p>暂无评论</p>
+        <!--取消分页
+        {% include 'comment_pagination.html'%}
+        -->
+        <!-- 暂时用crispy取代
+    <form action="{% url 'post_detail' post.pk %}" method="POST" id="comment-form">
+        {% csrf_token %}
+        {% crispy form %}
+        <div class="form-group pull-right">
+            <button type="button" class="btn btn-danger btn-md" id="cancel-reply">取消回复</button>&nbsp;
+            <button type="submit" class="btn btn-primary btn-md">提交评论</button>
         </div>
-        {% endif %}
+    </form>
+    -->
     </div>
 </div>
 {% endblock %}
