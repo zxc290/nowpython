@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.nowpython.cn']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_summernote',
     'suit',
     'haystack',
     'blog',
@@ -158,7 +159,7 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 # 邮箱设置
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_HOST_USER = '290704731@qq.com'
-EMAIL_HOST_PASSWORD = 'csnjmtzmxhvmcagg'
+EMAIL_HOST_PASSWORD = 'zjlrxtanevucbiei'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = '290704731@qq.com'
@@ -194,3 +195,16 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 LOGIN_REDIRECT_URL = '/'
+
+# django-summernote
+SUMMERNOTE_CONFIG = {
+    'width': '100%',
+    'height': '200',
+    'lang': 'zh-CN',
+    'toolbar': [
+            ['Misc', ['undo', 'redo']],
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['insert', ['picture', 'link']],
+        ],
+    'placeholder': '写下你的评论...'
+}

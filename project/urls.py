@@ -24,11 +24,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
-    url(r'^page/(?P<page>\d+)/$', views.index, name='home_page'),
     url(r'^post/(?P<pk>\d+)/$', views.post_detail, name='post_detail'),
-    url(r'post/(?P<pk>\d+)/comment/(?P<page>\d+)/$', views.post_detail, name='comment_page'),
     url(r'^category/(?P<cate_name>[\w\s]+)/$', views.index, name='category'),
-    url(r'^category/(?P<cate_name>[\w\s]+)/page/(?P<page>\d+)/$', views.index, name='category_page'),
     url(r'^accounts/profile/$', views.account_profile, name='account_profile'),
     # all-auth认证框架
     url(r'^accounts/', include('allauth.urls')),
@@ -39,6 +36,8 @@ urlpatterns = [
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/images/favicon.ico')),
     # ajax_comment评论
     url(r'^ajax/comment/$', views.ajax_comment, name='ajax_comment'),
+    # django-summernote
+    url(r'^summernote/', include('django_summernote.urls')),
 ]
 
 if settings.DEBUG:

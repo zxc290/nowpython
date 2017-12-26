@@ -16,3 +16,8 @@ def get_reply_of(root_comment):
     reply_list = Comment.objects.filter(parent=root_comment)
     return reply_list
 
+
+@register.inclusion_tag('user_avatar.html')
+def get_show_avatar(user):
+    '''返回一个用户的展示头像<img>标签，优先用网络头像'''
+    return {'user': user}

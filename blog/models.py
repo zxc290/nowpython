@@ -9,9 +9,9 @@ from imagekit.processors import ResizeToFill
 # Create your models here.
 class User(AbstractUser):
     nickname = models.CharField(verbose_name='昵称', max_length=50)
-    avatar = ProcessedImageField(upload_to='avatar', default='avatar/default.jpg', verbose_name='头像',
-                                 # 处理为45*45尺寸
-                                 processors=[ResizeToFill(45, 45)],
+    avatar = ProcessedImageField(upload_to='avatar', default='avatar/default.png', verbose_name='头像',
+                                 # 处理为48*48尺寸
+                                 processors=[ResizeToFill(48, 48)],
                                  )
 
 

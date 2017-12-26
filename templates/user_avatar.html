@@ -1,0 +1,9 @@
+{% if user.socialaccount_set.exists %}
+{% if user.avatar.url != '/media/avatar/default.jpg' %}
+<img src="{{ user.avatar.url }}" alt="本地头像">
+{% else %}
+<img src="{{ user.socialaccount_set.all.0.get_avatar_url}}" alt="网络头像">
+{% endif %}
+{% else %}
+<img src="{{ user.avatar.url }}" alt="本地头像">
+{% endif %}

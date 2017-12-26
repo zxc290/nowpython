@@ -1,1 +1,27 @@
 {% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="sidebar-module">
+    <div class="panel">
+        <div class="panel-heading">
+            {% block panel-heading %}{% endblock %}
+        </div>
+        <div class="panel-body">
+        {% block panel-body %}{% endblock %}
+        </div>
+        <div class="panel-footer text-center" id="social-login" style="background-color:#fff">
+            <div class="login-title">
+                <span>快速登录</span>
+            </div>
+            <div class="login-link">
+                <a href="/accounts/weibo/login/?process=login">
+                    <img src="{% static 'images/weibo.png'%}">
+                </a>
+                <a href="/accounts/github/login/?process=login">
+                    <img src="{% static 'images/github.png'%}">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,14 +11,17 @@ from datetime import datetime
 
 
 # Create your views here.
-def index(request, page=1, cate_name=None):
+def index(request, cate_name=None):
     if cate_name:
         cate = get_object_or_404(Category, name=cate_name)
         posts = cate.post_set.all()
     else:
         posts = Post.objects.all()
 
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 3)
+
+    page = request.GET.get('page')
+
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -29,7 +32,7 @@ def index(request, page=1, cate_name=None):
     return render(request, 'index.html', {'posts': posts, 'cate_name': cate_name})
 
 
-def post_detail(request, pk, page=1):
+def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.content = markdown(post.content)
     comment_list = post.comment_set.all().filter(parent=None)
@@ -67,20 +70,6 @@ def post_detail(request, pk, page=1):
     form = CommentForm(initial={'post': post.pk})
     return render(request, 'post_detail.html', {'post': post, 'comment_list': comment_list, 'form': form})
 
-'''用allauth代替
-def register(request):
-    if request.method == 'POST':
-        user_form = RegisterForm(request.POST)
-        if user_form.is_valid():
-            new_user = user_form.save(commit=False)
-            new_user.set_password(user_form.cleaned_data['password'])
-            new_user.save()
-            return redirect('login')
-    else:
-        user_form = RegisterForm()
-    return render(request, 'register.html', {'user_form': user_form})
-'''
-
 
 @login_required
 def account_profile(request):
@@ -117,21 +106,7 @@ def ajax_comment(request):
                 # 当回复了根评论时，新回复的根评论即为reply_to本身
             else:
                 new_comment.parent = reply_to
-        '''不做拼接
-            parent_id = new_comment.parent.pk
-        else:
-            parent_id = None
-        '''
         new_comment.save()
-        '''不做拼接
-        avatar_url = new_comment.author.avatar.url
-        id = new_comment.pk
-        author = new_comment.author.username
-        # 格式化时间为字符串后转化成json
-        created = new_comment.created.strftime("%Y{y}%m{m}%d{d} %H:%I").format(y='年', m='月', d='日')
-        content = new_comment.content
-        ret = {'avatar_url':avatar_url, 'id': id, 'author':author, 'created': created, 'content':content, 'parent_id':parent_id}
-        '''
         new_point = '#c' + str(new_comment.pk)
         return JsonResponse({'msg': '评论成功!', 'new_point': new_point})
     return JsonResponse({'msg': '评论失败!'})

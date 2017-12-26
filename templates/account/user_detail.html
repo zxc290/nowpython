@@ -1,8 +1,10 @@
 {% extends 'account/base.html' %}
 {% load crispy_forms_tags %}
 
-{% block content %}
-    <h1>个人资料</h1>
+{% block panel-heading %}个人资料{% endblock %}
+
+{% block panel-body %}
+
     <form class="profile" method="post" enctype="multipart/form-data"
         action="{% url 'account_profile' %}">
         {% csrf_token %}
@@ -11,6 +13,6 @@
         <div class="avatar">
             <img class="img-rounded" src="{{ request.user.avatar.url }}">
         </div>
-        <button class="primaryAction" type="submit">更新资料</button>
+        <button class="primaryAction btn btn-primary" type="submit">更新资料</button>
     </form>
 {% endblock %}
