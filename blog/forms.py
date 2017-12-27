@@ -5,7 +5,6 @@ from crispy_forms.layout import Layout, Field, Button, Submit
 from django_summernote.widgets import SummernoteInplaceWidget
 
 
-
 '''auth自带signup,暂时取代register
 class RegisterForm(ModelForm):
     password = forms.CharField(label='输入密码', widget=forms.PasswordInput)
@@ -27,6 +26,7 @@ class RegisterForm(ModelForm):
             raise forms.ValidationError('该邮箱已注册')
         return cd['email']
 '''
+
 
 class CommentForm(ModelForm):
 

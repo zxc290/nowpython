@@ -17,7 +17,7 @@ $(function () {
 
 
     // 点击回复，改变reply_to的select选项中的值
-    $('.reply').click(function(){
+    $('.comment-list').delegate('.reply', 'click', function(){
         $('#id_content').val('');
         var reply_to = $(this).attr('ID');
         $('#id_reply_to option:selected').val(reply_to);
@@ -29,7 +29,7 @@ $(function () {
 
     // 评论提交后将页面刷新，并且定位到新的评论处
     if(sessionStorage.getItem('has_point')){
-        var top = $(sessionStorage.getItem('new_point')).offset().top-100;
+        var top = $(sessionStorage.getItem('new_point')).offset();
         $('body,html').animate({scrollTop:top}, 1000);
         window.location.hash = sessionStorage.getItem('new_point');
         sessionStorage.removeItem('has_point');
@@ -49,10 +49,17 @@ $(function () {
             swal("请登录后再评论");
             return false;
         }
-        if ($('#id_content').val() == 0){
-                swal("评论内容不能为空！");
+
+        // 富文本插件前端判断内容是否为空
+
+        var content = $('#id_content-textarea').val();
+        var list = content.replace(/<.*?>/ig,"").replace(/&nbsp;/ig, "").replace(/\s/g, "");
+        if (list.length == 0){
+                swal("评论不能为空");
+                window.location.reload();
                 return false;
             }
+
         e.preventDefault();
         $.ajaxSetup({
                 data: {csrfmiddlewaretoken: '{{ csrf_token }}' }
@@ -73,6 +80,29 @@ $(function () {
                 alert(ret.msg);
             }
         });
+    });
+
+    // 滚动加载
+    var page = 1;
+    var empty_page = false;
+    var block_request = false;
+
+    $(window).scroll(function() {
+        var margin = $(document).height() - $(window).height() - 200;
+        if  ($(window).scrollTop() > margin && empty_page == false && block_request == false) {
+            block_request = true;
+            page += 1;
+            $.get('?page=' + page, function(data) {
+                if(data == '')
+                {
+                    empty_page = true;
+                }
+                else {
+                    block_request = false;
+                    $('.comment-list').append(data);
+                }
+            });
+        }
     });
 });
 

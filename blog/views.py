@@ -37,15 +37,21 @@ def post_detail(request, pk):
     post.content = markdown(post.content)
     comment_list = post.comment_set.all().filter(parent=None)
 
-    '''评论不做分页
-    paginator = Paginator(comment_list, 10)
+    paginator = Paginator(comment_list, 5)
+    page = request.GET.get('page')
     try:
         comment_list = paginator.page(page)
     except PageNotAnInteger:
         comment_list = paginator.page(1)
     except EmptyPage:
+        if request.is_ajax():
+            return HttpResponse('')
         comment_list = paginator.page(paginator.num_pages)
-    '''
+
+    if request.is_ajax():
+        return render(request, 'ajax_comment_list.html', {'comment_list': comment_list})
+
+
     '''评论列表单独做ajax
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -93,6 +99,7 @@ custom_password_change = login_required(CutsomPasswordChange.as_view())
 
 @require_POST
 def ajax_comment(request):
+    print(request.POST.get('content'))
     form = CommentForm(request.POST)
     if request.is_ajax() and form.is_valid():
         new_comment = form.save(commit=False)

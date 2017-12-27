@@ -206,5 +206,4 @@ SUMMERNOTE_CONFIG = {
             ['style', ['bold', 'italic', 'underline', 'clear']],
             ['insert', ['picture', 'link']],
         ],
-    'placeholder': '写下你的评论...'
 }
