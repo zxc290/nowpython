@@ -2,7 +2,6 @@ from .models import User, Comment
 from django.forms import ModelForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Button, Submit
-from django_summernote.widgets import SummernoteInplaceWidget
 
 
 '''auth自带signup,暂时取代register
@@ -49,9 +48,6 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ('content', 'parent', 'reply_to', 'post')
-        widgets = {
-            'content': SummernoteInplaceWidget(),
-        }
 
 
 class UserDetailForm(ModelForm):

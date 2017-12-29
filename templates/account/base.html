@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load socialaccount %}
 {% block content %}
 <div class="sidebar-module">
     <div class="panel">
@@ -14,10 +15,10 @@
                 <span>快速登录</span>
             </div>
             <div class="login-link">
-                <a href="/accounts/weibo/login/?process=login">
+                <a href="{% provider_login_url 'weibo' process='login' %}">
                     <img src="{% static 'images/weibo.png'%}">
                 </a>
-                <a href="/accounts/github/login/?process=login">
+                <a href="{% provider_login_url 'github' process='login' %}">
                     <img src="{% static 'images/github.png'%}">
                 </a>
             </div>

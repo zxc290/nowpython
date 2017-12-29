@@ -1,0 +1,16 @@
+{% load blog_tags %}
+{% load humanize %}
+<div class="root-comment">
+    <div class="col-sm-1 comment-avatar">
+        {% get_show_avatar new_comment.author %}
+    </div>
+    <div class="col-sm-11">
+        <span id="c{{ new_comment.pk }}">{{ new_comment.author.username }}</span>
+        {% if new_comment.reply_to %}
+        &nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;{{ new_comment.reply_to.author }}
+        {% endif %}
+        <span class="pull-right">{{ new_comment.created|naturaltime }}</span>
+        <div class="comment-content">{{ new_comment.content|safe }}</div>
+        <span><a href="javascript:void(0);" class="reply pull-right" id="{{ new_comment.pk }}">回复</a></span>
+    </div>
+</div>

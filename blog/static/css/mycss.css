@@ -28,7 +28,7 @@ body {
 /*页脚*/
 footer {
   flex: 0 0 auto;
-  background-color: #1d8659;
+  background-color: #47504c;
   color: #fff;
 }
 
@@ -39,8 +39,8 @@ footer {
     right:40px;
 }
 .navbar-default {
-    background-color:#1d8659;
-    border-color:#1d8659;
+    background-color: #1aa287;
+    border-color: #1aa287;
 }
 .navbar-default .navbar-brand {
     color:#fff;
@@ -56,13 +56,13 @@ footer {
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
   color: #fff;
-  background-color: #1d7164;
+  background-color: #149077;
 }
 .panel {
     border:none;
 }
 .panel-heading {
-    background-color: #1d8659;
+    background-color: #1aa287;
     color: #fff;
 }
 

@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.nowpython.cn']
 # Application definition
 
 INSTALLED_APPS = [
-    'django_summernote',
     'suit',
     'haystack',
     'blog',
@@ -50,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -190,20 +190,17 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # all-auth设置
 SITE_ID = 1
+# 用户名或密码登录
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+# 注册时必须使用邮箱
 ACCOUNT_EMAIL_REQUIRED = True
+# 直接退出，无需点击确认表单
 ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+# 必须验证邮箱地址
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# 点击链接直接确认邮箱，无需点击确认表单
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+# 社交账户不需要验证邮箱
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 LOGIN_REDIRECT_URL = '/'
-
-# django-summernote
-SUMMERNOTE_CONFIG = {
-    'width': '100%',
-    'height': '200',
-    'lang': 'zh-CN',
-    'toolbar': [
-            ['Misc', ['undo', 'redo']],
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['insert', ['picture', 'link']],
-        ],
-}
+LOGIN_URL = '/accounts/login'

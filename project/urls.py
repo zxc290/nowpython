@@ -36,8 +36,6 @@ urlpatterns = [
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/images/favicon.ico')),
     # ajax_comment评论
     url(r'^ajax/comment/$', views.ajax_comment, name='ajax_comment'),
-    # django-summernote
-    url(r'^summernote/', include('django_summernote.urls')),
 ]
 
 if settings.DEBUG:

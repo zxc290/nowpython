@@ -99,7 +99,6 @@ custom_password_change = login_required(CutsomPasswordChange.as_view())
 
 @require_POST
 def ajax_comment(request):
-    print(request.POST.get('content'))
     form = CommentForm(request.POST)
     if request.is_ajax() and form.is_valid():
         new_comment = form.save(commit=False)
@@ -114,6 +113,5 @@ def ajax_comment(request):
             else:
                 new_comment.parent = reply_to
         new_comment.save()
-        new_point = '#c' + str(new_comment.pk)
-        return JsonResponse({'msg': '评论成功!', 'new_point': new_point})
+        return render(request, 'ajax_comment.html', {'new_comment': new_comment})
     return JsonResponse({'msg': '评论失败!'})

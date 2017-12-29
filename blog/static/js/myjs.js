@@ -24,16 +24,9 @@ $(function () {
         $('#button-id-cancel-reply').show();
         var reply_to_user = $('#c' + reply_to).text();
         $('.comment-form-title').children().html('回复:' + reply_to_user);
-        $('html,body').animate({scrollTop:$('#comment-form').offset().top-150},1000);
+        $('html,body').animate({scrollTop:$('#comment-form').offset().top-150}, 500);
     });
 
-    // 评论提交后将页面刷新，并且定位到新的评论处
-    if(sessionStorage.getItem('has_point')){
-        var top = $(sessionStorage.getItem('new_point')).offset();
-        $('body,html').animate({scrollTop:top}, 1000);
-        window.location.hash = sessionStorage.getItem('new_point');
-        sessionStorage.removeItem('has_point');
-    };
 
     // 取消回复
     $('#button-id-cancel-reply').click(function(){
@@ -42,23 +35,14 @@ $(function () {
         $(this).hide();
         $('#id_content').val('');
     });
+
+
     // ajax提交
     $('#comment-form').submit(function(e){
-
         if ($('.logout').length == 0){
             swal("请登录后再评论");
             return false;
         }
-
-        // 富文本插件前端判断内容是否为空
-
-        var content = $('#id_content-textarea').val();
-        var list = content.replace(/<.*?>/ig,"").replace(/&nbsp;/ig, "").replace(/\s/g, "");
-        if (list.length == 0){
-                swal("评论不能为空");
-                window.location.reload();
-                return false;
-            }
 
         e.preventDefault();
         $.ajaxSetup({
@@ -70,11 +54,14 @@ $(function () {
             url:$(this).attr('action'),
             data:$('#comment-form').serialize(),
             success:function(ret){
-                // 清空内容
                 $('#id_content').val('');
-                sessionStorage.setItem('has_point', true);
-                sessionStorage.setItem('new_point', ret.new_point);
-                window.location.reload();
+                $('.comment-list').prepend(ret);
+                var count = Number($('#comment-count').text()) + 1;
+                $('#comment-count').text(count);
+                if ($('.no-comment').length >0 ){
+                    $('.no-comment').remove();
+                }
+                $('html,body').animate({scrollTop:$('.comment-list').offset().top-150}, 500);
             },
             error:function(){
                 alert(ret.msg);
