@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block content %}
 {% if cate_name %}
 <div class="alert alert-info" role="alert">
@@ -7,20 +8,27 @@
 {% endif %}
 {% for post in posts %}
 <div class="well">
-<div class="blog-post">
-    <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a></h2>
-    <p class="blog-post-meta">
-        作者：<a href="#"><span class="label label-danger">{{ post.author }}</span>&nbsp;&nbsp;</a>发布时间：{{ post.pub_time }}
-        &nbsp;&nbsp;&nbsp;
+    <div class="post-list-header">
+        <h3><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a></h3>
         {% for cate in post.category.all %}
-        <a href="{{ cate.get_absolute_url }}"><span class="label label-primary">{{cate.name}}&nbsp;</span></a>
+        <a href="{{ cate.get_absolute_url }}" class="pull-right"><span class="label label-primary">{{cate.name}}</span></a>
         {% endfor %}
-    </p>
-</div>
-<hr>
-<div>
-    {{ post.intro }}
-</div>
+    </div>
+    <div class="post-list-intro">
+        <div class="post-list-cover">
+            <a href="{{ post.get_absolute_url }}">
+                <img src="{{ post.cover.url }}" alt="文章封面" class="img-rounded">
+            </a>
+        </div>
+        <div>
+            {{ post.intro|truncatechars:100 }}
+        </div>
+    </div>
+    <div class="post-list-info">
+        <span class="glyphicon glyphicon-user author-icon"></span><span>{{ post.author }}</span>
+        <span class="glyphicon glyphicon-time created-icon"></span><span >{{ post.pub_time|naturaltime }}</span>
+        <span class="pull-right"><a href="{{ post.get_absolute_url }}">阅读更多</a></span>
+    </div>
 </div>
 {% endfor %}
 <hr>

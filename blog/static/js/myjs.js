@@ -23,7 +23,7 @@ $(function () {
         $('#id_reply_to option:selected').val(reply_to);
         $('#button-id-cancel-reply').show();
         var reply_to_user = $('#c' + reply_to).text();
-        $('.comment-form-title').children().html('回复:' + reply_to_user);
+        $('#id_content').attr('placeholder', '回复 ' + reply_to_user)
         $('html,body').animate({scrollTop:$('#comment-form').offset().top-150}, 500);
     });
 
@@ -34,15 +34,12 @@ $(function () {
         $('.comment-form-title').children().text('新评论');
         $(this).hide();
         $('#id_content').val('');
+        $('#id_content').attr('placeholder', '请输入评论内容')
     });
 
 
     // ajax提交
     $('#comment-form').submit(function(e){
-        if ($('.logout').length == 0){
-            swal("请登录后再评论");
-            return false;
-        }
 
         e.preventDefault();
         $.ajaxSetup({
@@ -61,7 +58,7 @@ $(function () {
                 if ($('.no-comment').length >0 ){
                     $('.no-comment').remove();
                 }
-                $('html,body').animate({scrollTop:$('.comment-list').offset().top-150}, 500);
+                $('html,body').animate({scrollTop:$('.comment-list').offset().top-200}, 500);
             },
             error:function(){
                 alert(ret.msg);
@@ -69,20 +66,20 @@ $(function () {
         });
     });
 
-    // 滚动加载
+    // 点击翻页
     var page = 1;
     var empty_page = false;
     var block_request = false;
 
-    $(window).scroll(function() {
-        var margin = $(document).height() - $(window).height() - 200;
-        if  ($(window).scrollTop() > margin && empty_page == false && block_request == false) {
-            block_request = true;
-            page += 1;
+    $('#more-comment').click(function(){
+        if (empty_page == false && block_request == false){
+        block_request = true;
+        page += 1;
             $.get('?page=' + page, function(data) {
                 if(data == '')
                 {
                     empty_page = true;
+                    $('#more-comment').text('全部加载完毕').addClass('disabled');
                 }
                 else {
                     block_request = false;
@@ -90,6 +87,11 @@ $(function () {
                 }
             });
         }
+    });
+
+    // 点击定位到评论框
+    $('#go-to-comment').click(function(){
+        $('html,body').animate({scrollTop:$('#comment-form').offset().top-200}, 500);
     });
 });
 

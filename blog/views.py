@@ -37,7 +37,7 @@ def post_detail(request, pk):
     post.content = markdown(post.content)
     comment_list = post.comment_set.all().filter(parent=None)
 
-    paginator = Paginator(comment_list, 5)
+    paginator = Paginator(comment_list, 10)
     page = request.GET.get('page')
     try:
         comment_list = paginator.page(page)
@@ -87,14 +87,6 @@ def account_profile(request):
             messages.append('资料修改成功')
     form = UserDetailForm(instance=request.user)
     return render(request, 'account/user_detail.html', {'form': form, 'messages': messages})
-
-''' 重写密码修改成功后重定向
-class CutsomPasswordChange(PasswordChangeView):
-    def get_success_url(self):
-        print('陈宫')
-        return '/accounts/profile'
-custom_password_change = login_required(CutsomPasswordChange.as_view())
-'''
 
 
 @require_POST

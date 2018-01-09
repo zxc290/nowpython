@@ -1,17 +1,19 @@
 a {
-    color:#252525;
+    color:#31a77c;
     text-decoration:none;
 }
 a:visited {
     text-decoration:none;
 }
 a:hover {
-    color:#ba2636;
+    color:#146346;
     text-decoration:none;
 }
 a:active {
-    color:#ba2636;
+    color:#146346;
+    text-decoration:none;
 }
+
 html {
     height:100%;
 }
@@ -72,6 +74,9 @@ footer {
 .comment-count {
     margin:70px 0px 20px;
 }
+.comment-h3 {
+     display:inline;
+}
 .reply-list {
     margin-left:70px;
 }
@@ -86,30 +91,22 @@ footer {
     margin:10px 0;
     overflow:hidden;
 }
-.comment-form-title {
-    padding: 10px 10px;
-    border-top: solid 1px;
-    border-left: solid 1px;
-    border-right: solid 1px;
-    border-color: silver;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    background-color:#eee;
-}
+
 .comment-form-title span{
     font-size: 1.2em;
     margin-left: 5px;
 }
 .post-content {
-    border-top:1px #ccc solid;
-    padding:15px 0px;
-    margin-bottom:15px;
+    border-top: 1px #ddd solid;
+    border-bottom: 1px #ddd solid;
+    padding: 10px 0;
+    margin: 10px 0;
 }
 .comment-avatar {
-    padding-left:0px;
+    padding-left: 0px;
 }
 .comment-content {
-    margin:10px 0;
+    margin: 10px 0;
 }
 
 #div_id_parent {
@@ -127,3 +124,45 @@ footer {
 }
 .well {
      overflow:hidden;
+}
+.post-list-header > h3 {
+    display:inline;
+}
+.post-list-header > a {
+    margin-left:3px;
+}
+.post-list-intro {
+    overflow:hidden;
+    margin-top:20px;
+}
+.post-list-cover {
+    float:left;
+    margin:0 20px 20px 0;
+}
+.author-icon {
+     margin-right:5px;
+}
+.created-icon {
+    margin:0 5px;
+}
+.post-bottom {
+    border-top:1px solid #ccc;
+    margin-top:20px;
+    padding-top:20px;
+}
+#more-comment {
+    margin-right:10px;
+    width:20%;
+}
+#go-to-comment {
+    width:20%;
+}
+.post-cate {
+     border:1px #357e90 dashed;
+     overflow:hidden;
+     padding: 10px 10px 3px;
+     margin:30px 0;
+}
+.post-cate > .pull-right > a {
+     margin-left:3px;
+}

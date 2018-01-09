@@ -49,6 +49,9 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=80, verbose_name='标题')
     intro = models.TextField(max_length=300, verbose_name='描述', blank=True)
+    cover = ProcessedImageField(upload_to='cover', default='cover/default_cover.jpg', verbose_name='封面',
+                                processors=[ResizeToFill(200, 112)],
+                                )
     content = models.TextField(verbose_name='正文')
     pub_time = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
     author = models.ForeignKey(User, verbose_name='作者')
@@ -61,6 +64,12 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})
+
+    def get_pre(self):
+        return Post.objects.filter(pk__lt=self.pk).order_by('-pk').first()
+
+    def get_next(self):
+        return Post.objects.filter(pk__gt=self.pk).order_by('pk').first()
 
     def __str__(self):
         return self.title

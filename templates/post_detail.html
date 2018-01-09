@@ -4,26 +4,40 @@
 {% load humanize %}
 {% block content %}
 <div class="well">
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a></h2>
-        <p class="blog-post-meta">
-            作者：<a href="#"><span class="label label-danger">{{ post.author }}</span>&nbsp;&nbsp;</a>发布时间：{{ post.pub_time|naturaltime }}
-            &nbsp;&nbsp;&nbsp;
-            {% for cate in post.category.all %}
-            <a href="{{ cate.get_absolute_url }}"><span class="label label-primary">{{cate.name}}&nbsp;</span></a>
-            {% endfor %}
-        </p>
+    <div class="post-title text-center">
+        <h2>{{ post.title|title }}</h2>
+        <div>
+            <span class="glyphicon glyphicon-user" title="作者"></span>&nbsp;<span>{{ post.author }}</span>&nbsp;&nbsp;
+            <span class="glyphicon glyphicon-calendar" title="发布时间"></span>&nbsp;<span>{{ post.pub_time|date:'Y-m-d' }}</span>
+        </div>
     </div>
     <div class="post-content">
         {{ post.content|safe }}
     </div>
-    <div class="comment-form-title">
-            <span>新评论</span>
+    <div class="post-cate">
+        <div class="post-pre-next pull-left">
+            {% if post.get_pre %}
+            <p>
+                上一篇:<a href="{{ post.get_pre.get_absolute_url }}">{{ post.get_pre.title }}</a>
+            </p>
+            {% endif %}
+            {% if post.get_next %}
+            <p>
+                下一篇:<a href="{{ post.get_next.get_absolute_url }}">{{ post.get_next.title }}</a>
+            </p>
+            {% endif %}
         </div>
-        <!--评论列表-->
-        {% crispy form %}
+        <div class="pull-right">
+            {% for cate in post.category.all %}
+            <a href="{{ cate.get_absolute_url }}" class="pull-right"><span class="label label-primary">{{cate.name}}</span></a>
+            {% endfor %}
+        </div>
+    </div>
+    <!--评论列表-->
+
+    {% crispy form %}
     <div class="comment-count">
-        <h3>共有<span id="comment-count">{{ post.comment_set.all.count }}</span>条评论</h3>
+        <h3>全部回复&nbsp;<span id="comment-count">{{ post.comment_set.all.count }}</span>条评论</h3>
     </div>
     <div class="comment">
         <!-- 第一次遍历所有根评论 -->
@@ -64,18 +78,12 @@
             </div>
             {% endfor %}
         </div>
-
-        <!-- 暂时用crispy取代
-    <form action="{% url 'post_detail' post.pk %}" method="POST" id="comment-form">
-        {% csrf_token %}
-        {% crispy form %}
-        <div class="form-group pull-right">
-            <button type="button" class="btn btn-danger btn-md" id="cancel-reply">取消回复</button>&nbsp;
-            <button type="submit" class="btn btn-primary btn-md">提交评论</button>
+        {% if comment_list %}
+        <div class="post-bottom text-center">
+            <a href="javascript:void(0);" class="btn btn-default" id="more-comment">展开更多评论</a>
+            <a href="javascript:void(0);" class="btn btn-primary" id="go-to-comment">发表评论</a>
         </div>
-    </form>
-    -->
+        {% endif %}
     </div>
 </div>
-
 {% endblock %}
