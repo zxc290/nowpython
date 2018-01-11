@@ -33,7 +33,7 @@ class User(AbstractUser):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=20, verbose_name='分类名')
+    name = models.CharField(max_length=20, verbose_name='分类名', unique=True)
 
     class Meta:
         verbose_name = '分类'

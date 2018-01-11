@@ -14,6 +14,7 @@
             <img class="img-rounded" src="{{ request.user.avatar.url }}">
         </div>
         <br>
+        <a href="{% url 'account_change_password' %}" class="btn btn-primary">修改密码</a>
         <button class="primaryAction btn btn-primary" type="submit">更新资料</button>
     </form>
 {% endblock %}

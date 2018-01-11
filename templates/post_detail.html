@@ -36,6 +36,16 @@
     <!--评论列表-->
 
     {% crispy form %}
+
+    {% if not request.user.is_authenticated %}
+    <p class="text-warning" style="display:inline;">目前未登录，请<a href="{% url 'account_login' %}?next={{ request.path }}">登录</a>后参与评论</p>
+    <script>
+        $(function(){
+            $('#id_content').attr('disabled', true);
+            $('#submit-id-confirm-reply').attr('disabled', true);
+        });
+    </script>
+    {% endif %}
     <div class="comment-count">
         <h3>全部回复&nbsp;<span id="comment-count">{{ post.comment_set.all.count }}</span>条评论</h3>
     </div>

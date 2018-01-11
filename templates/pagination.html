@@ -12,7 +12,7 @@
         {% endif %}
         <li>
         <span class="current">
-            Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+            第 {{ posts.number }} 页 / 共 {{ posts.paginator.num_pages }}页
         </span>
         </li>
         {% if posts.has_next %}

@@ -20,7 +20,7 @@
 {% include 'nav.html' %}
 <div class="container" id="main">
     <div class="row">
-        <div class="col-sm-7 blog-main">
+        <div class="col-sm-8 blog-main">
             {% block message %}
         {% if messages %}
          <div id="myAlert" class="alert alert-success auth-message">
@@ -34,7 +34,7 @@
             {% block content %}
             {% endblock %}
         </div><!-- /.blog-main -->
-        <div class="col-sm-4 col-sm-offset-1 blog-sidebar">
+        <div class="col-sm-4 blog-sidebar">
             <div class="sidebar-module sidebar-module-inset">
                 <div class="panel">
                     <div class="panel-heading">
@@ -48,16 +48,6 @@
             <div class="sidebar-module">
                 <div class="panel">
                     <div class="panel-heading">
-                        <h3 class="panel-title">关于博客</h3>
-                    </div>
-                    <div class="panel-body">
-                        用博客的形式，记录下自己学习的点滴，受到很多技术博客的帮助，也希望自己的博客能成为其中之一。
-                    </div>
-                </div>
-            </div>
-            <div class="sidebar-module">
-                <div class="panel">
-                    <div class="panel-heading">
                         <h3 class="panel-title">文章分类</h3>
                     </div>
                     <div class="list-group">
@@ -65,6 +55,16 @@
                         {% for cate in category_list %}
                         <a href="{{ cate.get_absolute_url }}" class="list-group-item"><strong>{{cate}}</strong><span class="badge">{{cate.num_posts}}</span></a>
                         {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-module">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">未定义</h3>
+                    </div>
+                    <div class="panel-body">
+                        未定义
                     </div>
                 </div>
             </div>

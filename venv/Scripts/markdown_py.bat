@@ -1,0 +1,1 @@
+@"g:\workspace\project\venv\scripts\python.exe" "g:\workspace\project\venv\Scripts\markdown_py" %*
