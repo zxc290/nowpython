@@ -204,3 +204,10 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login'
+
+# 七牛云存储
+QINIU_ACCESS_KEY = '6H-fnNIXpfFqEF5VBVWh-j5mmiCDIqciifw0jmwZ'
+QINIU_SECRET_KEY = 'BPorT5V2uTa_W85mpoRB1PxTbXxcYKNOzZmydi2p'
+QINIU_BUCKET_NAME = 'nowpython'
+QINIU_BUCKET_DOMAIN = 'p2lgdfnha.bkt.clouddn.com'
+DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuStorage'
