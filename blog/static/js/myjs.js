@@ -66,15 +66,40 @@ $(function () {
         });
     });
 
+    // 点击通知访问，带有指定页码和评论id
+    if (sessionStorage.getItem('cpage') && sessionStorage.getItem('cid')){
+        var cpage = sessionStorage.getItem('cpage');
+        var cid = sessionStorage.getItem('cid');
+        // 第一页的评论不用ajax添加
+        if (cpage != 1){
+            // 重点注意，js的for循环为同步，ajax默认为异步，先将ajax改为同步
+            $.ajaxSetup({
+                async : false
+                });
+            for (i=2; i <= cpage; i++){
+                $.get('?page=' + i, function(data){
+                    $('.comment-list').append(data);
+                });
+            };
+        }
+        $('html, body').animate({scrollTop:$('#' + cid).offset().top-200}, 500);
+        sessionStorage.removeItem('cpage');
+        sessionStorage.removeItem('cid');
+    }
+    else{
+        var cpage = 1;
+    }
+
     // 点击翻页
-    var page = 1;
+    var page = Number(cpage);
     var empty_page = false;
     var block_request = false;
 
+
     $('#more-comment').click(function(){
         if (empty_page == false && block_request == false){
-        block_request = true;
-        page += 1;
+            block_request = true;
+            page += 1;
             $.get('?page=' + page, function(data) {
                 if(data == '')
                 {

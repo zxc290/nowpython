@@ -34,7 +34,6 @@
         </div>
     </div>
     <!--评论列表-->
-
     {% crispy form %}
 
     {% if not request.user.is_authenticated %}
@@ -96,4 +95,5 @@
         {% endif %}
     </div>
 </div>
+
 {% endblock %}

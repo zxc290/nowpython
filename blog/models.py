@@ -82,6 +82,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, verbose_name='所属文章')
     parent = models.ForeignKey('self', verbose_name='根评论', blank=True, null=True, related_name='child_comment')
     reply_to = models.ForeignKey('self', verbose_name='父级评论', blank=True, null=True, related_name='direct_child')
+    page = models.CharField(max_length=10, verbose_name='所在页', blank=True, null=True)
 
     class Meta:
         verbose_name = '评论'
@@ -91,3 +92,10 @@ class Comment(models.Model):
     def __str__(self):
         return self.content[:20]
 
+    def save(self, *args, **kwargs):
+        if self.parent:
+            self.page = self.parent.page
+        else:
+            objects = self.post.comment_set.all().filter(parent=None)
+            self.page = objects.count() // 10 + 1
+        super(Comment, self).save()

@@ -1,4 +1,5 @@
 {% load blog_tags %}
+{% load humanize %}
 {% for root_comment in comment_list %}
 <div class="root-comment">
     <div class="col-sm-1 comment-avatar">
@@ -6,7 +7,7 @@
     </div>
     <div class="col-sm-11">
         <span id="c{{ root_comment.pk }}">{{ root_comment.author.username }}</span>
-        <span class="pull-right">{{ root_comment.created }}</span>
+        <span class="pull-right">{{ root_comment.created|naturaltime }}</span>
         <div class="comment-content">{{ root_comment.content|safe }}</div>
         <span><a href="javascript:void(0);" class="reply pull-right" id="{{ root_comment.pk }}">回复</a></span>
     </div>
@@ -22,7 +23,7 @@
         </div>
         <div class="col-sm-11">
             <span id="c{{ comment.pk }}">{{ comment.author.username }}</span>&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;<span>{{ comment.parent.author.username }}</span>
-            <span class="pull-right">{{ comment.created }}</span>
+            <span class="pull-right">{{ comment.created|naturaltime }}</span>
             <div class="comment-content">{{ comment.content|safe }}</div>
             <span><a href="javascript:void(0);" class="pull-right reply" id="{{ comment.pk }}">回复</a></span>
         </div>

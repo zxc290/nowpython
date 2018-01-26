@@ -166,3 +166,6 @@ footer {
 .post-cate > .pull-right > a {
      margin-left:3px;
 }
+.notification > .panel > .panel-heading {
+    background-color:#fff;
+}

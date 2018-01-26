@@ -1,0 +1,34 @@
+
+<div class="alert alert-block alert-{{ notice.level }}">
+
+    <h4>
+        <i class="icon-mail{% if notice.unread %}-alt{% endif %}"></i>
+        <b>{{ notice.actor }}</b> 在&nbsp;
+        <a href="{{ notice.target.get_absolute_url }}" data-cpage="{{ notice.action_object.page }}" data-cid="c{{ notice.action_object.id }}" class="notification-target">{{ notice.target }}</a>
+        {{ notice.verb }}
+
+    </h4>
+
+    <p>{{ notice.timesince }} 前</p>
+
+    <p>{{ notice.description|safe|linebreaksbr }}</p>
+
+    <div class="notice-actions" style="overflow:hidden;">
+        <a class="btn btn-danger pull-right"  href="{% url 'notifications:delete' notice.slug %}">删除</a>
+        {% if notice.unread %}
+        <a class="btn btn-primary pull-right" style="margin-right:5px;" href="{% url 'notifications:mark_as_read' notice.slug %}">标记为已读</a>
+        {% endif %}
+    </div>
+    <script>
+        $(function(){
+            $('.notification-target').click(function(){
+                var cpage = $(this).data('cpage');
+                var cid = $(this).data('cid');
+                sessionStorage.setItem('cpage', cpage);
+                sessionStorage.setItem('cid', cid);
+            });
+        });
+    </script>
+</div>
+
+

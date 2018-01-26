@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="notification">
+    <div class="panel">
+        <div class="panel-heading notification">
+            <a class="btn {% if request.path == '/notifications/' %}btn-primary{%else%}btn-default{% endif %}" href="{% url 'notifications:all' %}">全部消息</a>
+            <a class="btn {% if request.path != '/notifications/' %}btn-primary{%else%}btn-default{% endif %}" href="{% url 'notifications:unread' %}">未读消息</a>
+        </div>
+
+        <div class="panel-body">
+
+            {% for notice in notifications %}
+            {% include 'notifications/notice.html' %}
+            {% empty %}
+            <div class="jumbotron">
+                <h4 class="text-center">暂无通知</h4>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

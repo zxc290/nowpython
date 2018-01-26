@@ -19,6 +19,7 @@ from django.views.generic.base import RedirectView
 from blog import views
 from django.conf import settings
 from django.conf.urls.static import static
+import notifications.urls
 
 
 urlpatterns = [
@@ -36,6 +37,8 @@ urlpatterns = [
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/images/favicon.ico')),
     # ajax_comment评论
     url(r'^ajax/comment/$', views.ajax_comment, name='ajax_comment'),
+    # django-notifications-hq
+    url('^notifications/', include(notifications.urls, namespace='notifications')),
 ]
 
 if settings.DEBUG:

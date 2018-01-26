@@ -22,56 +22,56 @@
     <div class="row">
         <div class="col-sm-8 blog-main">
             {% block message %}
-        {% if messages %}
-         <div id="myAlert" class="alert alert-success auth-message">
-            <a href="#" class="close" data-dismiss="alert">&times;</a>
-	        {% for message in messages %}
-	        <strong>{{message}}</strong>
-	        {% endfor %}
-         </div>
-        {% endif %}
-        {% endblock message %}
+            {% if messages %}
+            <div id="myAlert" class="alert alert-success auth-message">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                {% for message in messages %}
+                <strong>{{message}}</strong>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endblock message %}
             {% block content %}
             {% endblock %}
         </div><!-- /.blog-main -->
         <div class="col-sm-4 blog-sidebar">
-            <div class="sidebar-module sidebar-module-inset">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">天气预报</h3>
-                    </div>
-                    <div class="panel-body">
-                        <iframe width="300" scrolling="no" height="25" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=10&color=%23&bdc=%23&icon=2&site=12"></iframe>
-                    </div>
-                </div>
+    <div class="sidebar-module sidebar-module-inset">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">天气预报</h3>
             </div>
-            <div class="sidebar-module">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">文章分类</h3>
-                    </div>
-                    <div class="list-group">
-                        {% get_categories as category_list %}
-                        {% for cate in category_list %}
-                        <a href="{{ cate.get_absolute_url }}" class="list-group-item"><strong>{{cate}}</strong><span class="badge">{{cate.num_posts}}</span></a>
-                        {% endfor %}
-                    </div>
-                </div>
+            <div class="panel-body">
+                <iframe width="300" scrolling="no" height="25" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=10&color=%23&bdc=%23&icon=2&site=12"></iframe>
             </div>
-            <div class="sidebar-module">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">未定义</h3>
-                    </div>
-                    <div class="panel-body">
-                        未定义
-                    </div>
-                </div>
+        </div>
+    </div>
+    <div class="sidebar-module">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">文章分类</h3>
             </div>
-            <div id="backtotop">
-                <a href="javascript:void(0);" title="回到顶部"><img src="{% static 'images/backtotop.png' %}" alt="回到顶部"></a>
+            <div class="list-group">
+                {% get_categories as category_list %}
+                {% for cate in category_list %}
+                <a href="{{ cate.get_absolute_url }}" class="list-group-item"><strong>{{cate}}</strong><span class="badge">{{cate.num_posts}}</span></a>
+                {% endfor %}
             </div>
-        </div><!-- /.blog-sidebar -->
+        </div>
+    </div>
+    <div class="sidebar-module">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">未定义</h3>
+            </div>
+            <div class="panel-body">
+                未定义
+            </div>
+        </div>
+    </div>
+    <div id="backtotop">
+        <a href="javascript:void(0);" title="回到顶部"><img src="{% static 'images/backtotop.png' %}" alt="回到顶部"></a>
+    </div>
+</div><!-- /.blog-sidebar -->
     </div><!-- /.row -->
 </div><!-- /.container -->
 {% include 'footer.html' %}
