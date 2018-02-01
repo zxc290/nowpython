@@ -42,9 +42,6 @@ $(function () {
     $('#comment-form').submit(function(e){
 
         e.preventDefault();
-        $.ajaxSetup({
-                data: {csrfmiddlewaretoken: '{{ csrf_token }}' }
-            });
 
         $.ajax({
             type:$(this).attr('method'),

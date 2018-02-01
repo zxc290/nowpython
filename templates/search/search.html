@@ -7,7 +7,7 @@
 {% for result in page.object_list %}
 <div class="well">
     <div class="post-list-header">
-        <h3><a href="{{ result.object.get_absolute_url }}">{{ result.object.title|title }}</a></h3>
+        <h3><a href="{{ result.object.get_absolute_url }}">{% highlight result.object.title with query %}</a></h3>
         {% for cate in result.object.category.all %}
         <a href="{{ cate.get_absolute_url }}" class="pull-right"><span class="label label-primary">{{cate.name}}</span></a>
         {% endfor %}
@@ -19,7 +19,7 @@
             </a>
         </div>
         <div>
-            {{ result.object.intro|truncatechars:100 }}
+            {% highlight result.object.intro with query  %}
         </div>
     </div>
     <div class="post-list-info">

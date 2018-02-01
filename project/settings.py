@@ -156,6 +156,8 @@ HAYSTACK_CONNECTIONS = {
 }
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+HAYSTACK_CUSTOM_HIGHLIGHTER = 'blog.myhighlight.MyHighlighter'
+
 
 # 邮箱设置
 EMAIL_HOST = 'smtp.qq.com'

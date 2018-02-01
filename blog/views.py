@@ -33,7 +33,11 @@ def index(request, cate_name=None):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.content = markdown(post.content)
+    post.content = markdown(post.content, extensions=[
+                                          'markdown.extensions.extra',
+                                          'markdown.extensions.codehilite',
+                                          'markdown.extensions.toc',
+                                      ])
     comment_list = post.comment_set.all().filter(parent=None)
 
     paginator = Paginator(comment_list, 10)
