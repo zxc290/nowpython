@@ -1,0 +1,102 @@
+{% extends 'blog/base.html' %}
+{% load blog_tags %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block content %}
+<div class="well">
+    <div class="post-title text-center">
+        <h2><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a></h2>
+        <div>
+            <ul class="list-inline">
+                <li><i class="glyphicon glyphicon-user" title="作者"></i>&nbsp;{{ post.author }}</li>
+                <li><i class="glyphicon glyphicon-calendar" title="发布时间"></i>&nbsp;{{ post.pub_time|date:'Y-m-d' }}</li>
+                <li><i class="glyphicon glyphicon-eye-open" title="浏览次数"></i>&nbsp;{{ post.views }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="post-content">
+        {{ post.content|safe }}
+    </div>
+    <div class="post-cate">
+        <div class="post-pre-next pull-left">
+            {% if post.get_pre %}
+            <p>
+                上一篇:<a href="{{ post.get_pre.get_absolute_url }}">{{ post.get_pre.title }}</a>
+            </p>
+            {% endif %}
+            {% if post.get_next %}
+            <p>
+                下一篇:<a href="{{ post.get_next.get_absolute_url }}">{{ post.get_next.title }}</a>
+            </p>
+            {% endif %}
+        </div>
+        <div class="pull-right">
+            {% for cate in post.category.all %}
+            <a href="{{ cate.get_absolute_url }}" class="pull-right"><span class="label label-primary">{{cate.name}}</span></a>
+            {% endfor %}
+        </div>
+    </div>
+    <!--评论列表-->
+    {% crispy form %}
+
+    {% if not request.user.is_authenticated %}
+    <p class="text-warning" style="display:inline;">目前未登录，请<a href="{% url 'account_login' %}?next={{ request.path }}">登录</a>后参与评论</p>
+    <script>
+        $(function(){
+            $('#id_content').attr('disabled', true);
+            $('#submit-id-confirm-reply').attr('disabled', true);
+        });
+    </script>
+    {% endif %}
+    <div class="comment-count">
+        <h3>全部回复&nbsp;<span id="comment-count">{{ post.comment_set.all.count }}</span>条评论</h3>
+    </div>
+    <div class="comment">
+        <!-- 第一次遍历所有根评论 -->
+        <div class="comment-list">
+            {% for root_comment in comment_list %}
+            <div class="root-comment">
+                <div class="col-sm-1 comment-avatar">
+                    {% get_show_avatar root_comment.author %}
+                </div>
+                <div class="col-sm-11">
+                    <span id="c{{ root_comment.pk }}">{{ root_comment.author.username }}</span>
+                    <span class="pull-right">{{ root_comment.created|naturaltime }}</span>
+                    <div class="comment-content">{{ root_comment.content|safe }}</div>
+                    <span><a href="javascript:void(0);" class="reply pull-right" id="{{ root_comment.pk }}">回复</a></span>
+                </div>
+            </div>
+            <!--获取所有根评论下的回复-->
+            {% get_reply_of root_comment as reply_list %}
+            <!-- 第二次遍历当前跟评论下的所有回复 -->
+            <div class="reply-list">
+                {% for comment in reply_list %}
+                <div class="child-comment">
+                    <div class="col-sm-1 comment-avatar">
+                        {% get_show_avatar comment.author %}
+                    </div>
+                    <div class="col-sm-11">
+                        <span id="c{{ comment.pk }}">{{ comment.author.username }}</span>&nbsp;<span class="glyphicon glyphicon-share-alt"></span>&nbsp;<span>{{ comment.parent.author.username }}</span>
+                        <span class="pull-right">{{ comment.created|naturaltime }}</span>
+                        <div class="comment-content">{{ comment.content|safe }}</div>
+                        <span><a href="javascript:void(0);" class="pull-right reply" id="{{ comment.pk }}">回复</a></span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% empty %}
+            <div class="no-comment">
+                <p>暂无评论</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% if comment_list %}
+        <div class="post-bottom text-center">
+            <a href="javascript:void(0);" class="btn btn-default" id="more-comment">展开更多评论</a>
+            <a href="javascript:void(0);" class="btn btn-primary" id="go-to-comment">发表评论</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

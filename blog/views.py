@@ -28,11 +28,12 @@ def index(request, cate_name=None):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    return render(request, 'index.html', {'posts': posts, 'cate_name': cate_name})
+    return render(request, 'blog/index.html', {'posts': posts, 'cate_name': cate_name})
 
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    post.increase_views()
     post.content = markdown(post.content, extensions=[
                                           'markdown.extensions.extra',
                                           'markdown.extensions.codehilite',
@@ -52,9 +53,9 @@ def post_detail(request, pk):
         comment_list = paginator.page(paginator.num_pages)
 
     if request.is_ajax():
-        return render(request, 'ajax_comment_list.html', {'comment_list': comment_list})
+        return render(request, 'blog/ajax_comment_list.html', {'comment_list': comment_list})
     form = CommentForm(initial={'post': post.pk})
-    return render(request, 'post_detail.html', {'post': post, 'comment_list': comment_list, 'form': form})
+    return render(request, 'blog/post_detail.html', {'post': post, 'comment_list': comment_list, 'form': form})
 
 
 @login_required
@@ -86,5 +87,10 @@ def ajax_comment(request):
             else:
                 new_comment.parent = reply_to
         new_comment.save()
-        return render(request, 'ajax_comment.html', {'new_comment': new_comment})
+        return render(request, 'blog/ajax_comment.html', {'new_comment': new_comment})
     return JsonResponse({'msg': '评论失败!'})
+
+
+def timeline(request):
+    post_list = Post.objects.order_by('-pub_time')
+    return render(request, 'blog/timeline.html', {'post_list': post_list})

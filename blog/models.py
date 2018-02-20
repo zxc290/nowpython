@@ -56,6 +56,7 @@ class Post(models.Model):
     pub_time = models.DateTimeField(auto_now_add=True, verbose_name='发布时间')
     author = models.ForeignKey(User, verbose_name='作者')
     category = models.ManyToManyField(Category, verbose_name='分类', blank=True)
+    views = models.PositiveIntegerField(default=0, verbose_name='阅读数')
 
     class Meta:
         verbose_name = '文章'
@@ -70,6 +71,10 @@ class Post(models.Model):
 
     def get_next(self):
         return Post.objects.filter(pk__gt=self.pk).order_by('pk').first()
+
+    def increase_views(self):
+        self.views += 1
+        self.save(update_fields=['views'])
 
     def __str__(self):
         return self.title

@@ -1,0 +1,79 @@
+{% extends 'blog/base.html' %}
+{% load humanize %}
+{% load staticfiles %}
+{% block carousel %}
+<div class="trent-slider">
+  <div class="t-slide current-t-slide">
+    <img src="{% static 'images/carousel_1.jpg' %}" alt="" />
+  </div>
+  <div class="t-slide">
+    <img src="{% static 'images/carousel_2.jpg' %}" alt="" />
+  </div>
+  <div class="t-slide">
+    <img src="{% static 'images/carousel_3.jpg' %}" alt="" />
+  </div>
+  <div class="t-slide">
+    <img src="{% static 'images/carousel_4.jpg' %}" alt="" />
+  </div>
+  <div class="t-slider-controls">
+    <div class="arrow right-arrow">
+      <div class="arrow-container">
+        <div class="arrow-icon"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+      </div>
+    </div>
+    <div class="arrow left-arrow">
+      <div class="arrow-container">
+        <div class="arrow-icon"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+      </div>
+    </div>
+    <div class="t-load-bar">
+      <div class="inner-load-bar"></div>
+    </div>
+    <div class="t-dots-container">
+      <div class="t-slide-dots-wrap">
+        <div class="t-slide-dots">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+{% load staticfiles %}
+{% load blog_tags %}
+{% if cate_name %}
+<div class="alert alert-info" role="alert">
+    <strong>当前分类：{{ cate_name }}</strong>
+</div>
+{% endif %}
+{% for post in posts %}
+<div class="well">
+    <div class="post-list-header">
+        <h3><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a></h3>
+        {% for cate in post.category.all %}
+        <a href="{{ cate.get_absolute_url }}" class="pull-right"><span class="label label-primary">{{cate.name}}</span></a>
+        {% endfor %}
+    </div>
+    <div class="post-list-intro">
+        <div class="post-list-cover">
+            <a href="{{ post.get_absolute_url }}">
+                <img src="{{ post.cover.url }}" alt="文章封面" class="img-rounded">
+            </a>
+        </div>
+        <div class="post-intro">
+            {{ post.intro|truncatechars:100 }}
+        </div>
+    </div>
+    <div class="post-list-info">
+        <ul class="list-inline">
+            <li><i class="glyphicon glyphicon-user author-icon"></i>{{ post.author }}</li>
+            <li><i class="glyphicon glyphicon-time created-icon"></i>{{ post.pub_time|naturaltime }}</li>
+            <li class="pull-right"><a href="{{ post.get_absolute_url }}">阅读({{ post.views }})</a></li>
+        </ul>
+    </div>
+</div>
+{% endfor %}
+<hr>
+{% include 'blog/pagination.html'%}
+{% endblock %}

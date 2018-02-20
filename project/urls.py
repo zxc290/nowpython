@@ -39,6 +39,8 @@ urlpatterns = [
     url(r'^ajax/comment/$', views.ajax_comment, name='ajax_comment'),
     # django-notifications-hq
     url('^notifications/', include(notifications.urls, namespace='notifications')),
+    # timeline
+    url('^timeline/$', views.timeline, name='timeline'),
 ]
 
 if settings.DEBUG:

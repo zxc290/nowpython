@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="main-timeline">
+                {% for post in post_list %}
+                <div class="timeline">
+                    <div class="timeline-icon">
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="{% cycle 'timeline-content' 'timeline-content right' %}">
+                        <h2 class="title">{{ post.title }}</h2>
+                        <p class="description">{{ post.intro }}</p>
+                        <a href="{{ post.get_absolute_url }}" class="read-more">阅读更多</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block sidebar %}
+{% endblock %}

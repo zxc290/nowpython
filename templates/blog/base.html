@@ -1,0 +1,115 @@
+{% load blog_tags %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nowpython</title>
+    <!--css-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--导入自定义css文件-->
+    <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+    <link rel="stylesheet" href="{% static 'css/highlights/github.css' %}">
+    <link rel="stylesheet" href="{% static 'css/timeline.css' %}">
+    <link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+    <!--js-->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--导入自定义js文件-->
+    <script src="{% static 'js/myjs.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</head>
+<body>
+{% include 'blog/nav.html' %}
+<div class="container" id="main">
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            <!--轮播-->
+            {% block carousel %}
+            {% endblock %}
+            <!--消息-->
+            {% block message %}
+            {% if messages %}
+            <div id="myAlert" class="alert alert-success auth-message">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                {% for message in messages %}
+                <strong>{{message}}</strong>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endblock message %}
+            <!--文章列表-->
+            {% block content %}
+            {% endblock %}
+        </div><!-- /.blog-main -->
+        <!--侧边栏-->
+        {% block sidebar %}
+        <div class="col-sm-4 blog-sidebar">
+            <div class="sidebar-module sidebar-module-inset">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">个人空间</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-sm-6 text-center">
+                            <a href="https://github.com/zxc290"><img src="{% static 'images/GitHub_link.png' %}" alt="GitHub"></a>
+                        </div>
+                        <div class="col-sm-6 text-center">
+                            <a href="{% url 'timeline' %}"><img src="{% static 'images/timeline.png' %}" alt="TimeLine"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-module">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">文章分类</h3>
+                    </div>
+                    <div class="list-group">
+                        {% get_categories as category_list %}
+                        {% for cate in category_list %}
+                        <a href="{{ cate.get_absolute_url }}" class="list-group-item"><strong>{{cate}}</strong><span class="badge">{{cate.num_posts}}</span></a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-module">
+                <ul id="myTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#post-rank" data-toggle="tab">
+                            文章排行
+                        </a>
+                    </li>
+                    <li><a href="#comment-rank" data-toggle="tab">评论排行</a></li>
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active" id="post-rank">
+                        {% get_post_rank as post_rank_list %}
+                        <ul>
+                            {% for post in post_rank_list %}
+                            <li><a href="{{ post.get_absolute_url }}"><strong>{{ forloop.counter }}.{{ post }}</strong></a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="comment-rank">
+                        {% get_comment_rank as comment_rank_list %}
+                        <ul>
+                            {% for post in comment_rank_list %}
+                            <li><a href="{{ post.get_absolute_url }}"><strong>{{ forloop.counter }}.{{ post }}</strong></a></li>
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.blog-sidebar -->
+        {% endblock %}
+    </div><!-- /.row -->
+</div><!-- /.container -->
+<div id="backtotop">
+    <a href="javascript:void(0);" title="回到顶部"><img src="{% static 'images/backtotop.png' %}" alt="回到顶部"></a>
+</div>
+{% include 'blog/footer.html' %}
+</body>
+</html>
