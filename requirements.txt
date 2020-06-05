@@ -3,7 +3,7 @@ chardet==3.0.4
 click==6.7
 defusedxml==0.5.0
 dj-pagination==2.3.0
-Django==1.11.1
+Django==1.11.29
 django-allauth==0.34.0
 django-appconf==1.0.2
 django-crispy-forms==1.7.0
